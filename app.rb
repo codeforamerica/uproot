@@ -7,7 +7,7 @@ require File.expand_path("../lib/call_to_ivr_screen", __FILE__)
 
 class Uproot < Sinatra::Base
   register Sinatra::ActiveRecordExtension
-  set :database_file, 'config/database.yml'
+  set :database_file, File.expand_path('../config/database.yml', __FILE__)
 
   get '/ivr/:ivr_phone_number' do
     @all_screens = IvrScreen.where('ivr_phone_number = ?', params[:ivr_phone_number])

@@ -10,3 +10,7 @@ default: &default
 development:
   <<: *default
   database: uproot-development
+
+test:
+  <<: *default
+  database: uproot-test

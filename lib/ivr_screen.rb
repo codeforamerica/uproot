@@ -3,6 +3,11 @@ class IvrScreen < ActiveRecord::Base
     @next_screen_options ||= extract_screen_options_from_transcription(transcription_text)
   end
 
+  def depth_level
+    digit_button_pushes = digit_sequence.scan(/(\d+)/)
+    digit_button_pushes.count
+  end
+
   private
   def extract_screen_options_from_transcription(text)
     if text == nil

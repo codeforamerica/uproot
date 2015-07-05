@@ -1,4 +1,4 @@
-require 'app_spec_helper'
+require 'spec_helper'
 
 describe Uproot, type: :feature do
   let(:fake_call) { double("CallToIvrScreen", :initiate! => "") }
