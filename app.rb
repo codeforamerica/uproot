@@ -17,6 +17,12 @@ class Uproot < Sinatra::Base
     end.text
   end
 
+  post '/digits/:digit_sequence' do
+    puts params
+    # This gets hit by default by Twilio recording, so just want to return a response
+    ""
+  end
+
   post '/handle-transcription/:digit_sequence' do
     current_screen = IvrScreen.new(
       transcription_text: params[:TranscriptionText],
