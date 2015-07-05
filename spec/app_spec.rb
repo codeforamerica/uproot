@@ -12,6 +12,6 @@ describe Uproot, type: :feature do
     post '/handle-transcription/wwwwwwwwwwwwww1', {
       "TranscriptionText" => transcription
     }
-    expect(fake_call).to have_received(:initiate!)
+    expect(fake_call).to have_received(:initiate!).exactly(4).times
   end
 end
