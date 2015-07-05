@@ -1,0 +1,13 @@
+<ul>
+<% @all_screens.each do |screen| %>
+<p>
+  <li><%= screen.digit_sequence %></li>
+  <li><%= screen.transcription_text %></li>
+  <li><audio controls>
+  <source src="<%= screen.recording_url + ".mp3" %>" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
+</li>
+</p>
+<% end %>
+</ul>

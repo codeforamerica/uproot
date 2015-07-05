@@ -9,6 +9,11 @@ class Uproot < Sinatra::Base
   register Sinatra::ActiveRecordExtension
   set :database_file, 'config/database.yml'
 
+  get '/ivr/:ivr_phone_number' do
+    @all_screens = IvrScreen.where('ivr_phone_number = ?', params[:ivr_phone_number])
+    erb :ivr
+  end
+
   get '/ivr/:ivr_phone_number/digits/:digit_sequence/twilio-instructions' do
     digit_sequence = params[:digit_sequence]
     ivr_phone_number = params[:ivr_phone_number]
