@@ -5,11 +5,15 @@ class IvrScreen < ActiveRecord::Base
 
   private
   def extract_screen_options_from_transcription(text)
-    digits_inside_arrays = text.scan(/[pP]ress (\d)/)
-    digits_inside_arrays.map do |digit_inside_array|
-      digit_inside_array[0].to_i
-    end.select do |digit|
-      self.class.button_blacklist.include?(digit) == false
+    if text == nil
+      []
+    else
+      digits_inside_arrays = text.scan(/[pP]ress (\d)/)
+      digits_inside_arrays.map do |digit_inside_array|
+        digit_inside_array[0].to_i
+      end.select do |digit|
+        self.class.button_blacklist.include?(digit) == false
+      end
     end
   end
 
