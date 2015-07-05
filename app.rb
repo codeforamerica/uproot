@@ -9,6 +9,13 @@ class Uproot < Sinatra::Base
   register Sinatra::ActiveRecordExtension
   set :database_file, File.expand_path('../config/database.yml', __FILE__)
 
+  get '/ivr' do
+    @ivr_numbers = IvrScreen.select(:ivr_phone_number).uniq.map do |screen|
+      screen.ivr_phone_number
+    end
+    erb :ivr_index
+  end
+
   get '/ivr/:ivr_phone_number' do
     @all_screens = IvrScreen.where('ivr_phone_number = ?', params[:ivr_phone_number])
     erb :ivr

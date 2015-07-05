@@ -1,0 +1,9 @@
+<h1>IVRs</h1>
+
+<ul>
+  <% @ivr_numbers.each do |number| %>
+    <li>
+      <a href="/ivr/<%= number %>"><%= number %></a>
+    </li>
+  <% end %>
+</ul>
