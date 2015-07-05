@@ -1,13 +1,6 @@
-class IvrScreen
-  attr_reader :digit_sequence
-
-  def initialize(args)
-    @transcription_text = args[:transcription_text]
-    @digit_sequence = args[:digit_sequence]
-  end
-
+class IvrScreen < ActiveRecord::Base
   def next_screen_options
-    @next_screen_options ||= extract_screen_options_from_transcription(@transcription_text)
+    @next_screen_options ||= extract_screen_options_from_transcription(transcription_text)
   end
 
   private
