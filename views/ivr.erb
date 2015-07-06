@@ -1,13 +1,18 @@
 <ul>
+  <% if @all_screens.empty? %>
+If you just started mapping this IVR tree, refresh this page after a few minutes to see the data as it comes in.
+  <% end %>
 <% @all_screens.each do |screen| %>
 <p>
   <li><%= screen.digit_sequence %></li>
   <li><%= screen.transcription_text %></li>
   <li>
+    <% if screen.recording_url %>
     <audio controls>
     <source src="<%= screen.recording_url + ".mp3" %>" type="audio/mpeg">
     Your browser does not support the audio element.
     </audio>
+    <% end %>
   </li>
   <li><%= screen.next_screen_options %></li>
 </p>

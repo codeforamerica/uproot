@@ -16,6 +16,19 @@ class Uproot < Sinatra::Base
     erb :ivr_index
   end
 
+  get '/ivr/new' do
+    erb :ivr_new
+  end
+
+  post '/ivr' do
+    phone_number = PhoneNumber.new(params[:phone_number])
+    CallToIvrScreen.new(
+      digit_sequence: params[:digit_sequence],
+      ivr_phone_number: phone_number.to_twilio_format
+    ).initiate!
+    redirect to("/ivr/#{phone_number.to_url_format}")
+  end
+
   get '/ivr/:ivr_phone_number' do
     @all_screens = IvrScreen.where('ivr_phone_number = ?', params[:ivr_phone_number])
     erb :ivr
@@ -27,9 +40,9 @@ class Uproot < Sinatra::Base
     Twilio::TwiML::Response.new do |r|
       r.Play digits: digit_sequence
       r.Record(
-        action: "https://268d06ca.ngrok.com/ivr/#{ivr_phone_number}/digits/#{digit_sequence}/audio-recording",
+        action: "#{ENV['UPROOT_BASE_URL']}/ivr/#{ivr_phone_number}/digits/#{digit_sequence}/audio-recording",
         transcribe: true,
-        transcribeCallback: "https://268d06ca.ngrok.com/ivr/#{ivr_phone_number}/digits/#{digit_sequence}/transcription",
+        transcribeCallback: "#{ENV['UPROOT_BASE_URL']}/ivr/#{ivr_phone_number}/digits/#{digit_sequence}/transcription",
         maxLength: 60
       )
     end.text
@@ -78,13 +91,17 @@ class Uproot < Sinatra::Base
     puts params[:TranscriptionText]
     puts current_screen.next_screen_options
 
-    current_screen.next_screen_options.each do |button_option|
-      sequence_for_next_screen = current_screen.digit_sequence + "wwwwww#{button_option}"
-      puts "Initiating call for: #{sequence_for_next_screen}"
-      CallToIvrScreen.new(
-        ivr_phone_number: params[:ivr_phone_number],
-        digit_sequence: sequence_for_next_screen
-      ).initiate!
+    if current_screen.depth_level >= 4
+      puts "Reached max depth level of 4 for #{current_screen.digit_sequence}"
+    else
+      current_screen.next_screen_options.each do |button_option|
+        sequence_for_next_screen = current_screen.digit_sequence + "wwwwww#{button_option}"
+        puts "Initiating call for: #{sequence_for_next_screen}"
+        CallToIvrScreen.new(
+          ivr_phone_number: params[:ivr_phone_number],
+          digit_sequence: sequence_for_next_screen
+        ).initiate!
+      end
     end
     ""
   end
