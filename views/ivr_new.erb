@@ -1,9 +1,23 @@
+<h2>Map an IVR tree</h2>
 <form action="/ivr" method="POST">
 Phone number:<br>
+<i>ex. 14151112222</i><br>
 <input type="text" name="phone_number">
 <br>
+<br>
 Digit sequence:<br>
+<i>ex. wwwwwwwwww1</i><br>
+(or, "wait 5 seconds and then press 1")<br>
 <input type="text" name="digit_sequence">
 <br><br>
 <input type="submit" value="Submit">
 </form>
+<br>
+<p>
+  <h3>Help:</h3>
+  <ul>
+    <li>The best way to do this is to call the number yourself, count how long you have to wait (and write out those w's) and then any button you have to press (for example, 1 for English)</li>
+    <li>In the digit sequence, a 'w' means "wait half a second"</li>
+    <li>The phone number must be in the format 1xxxyyyzzzz</li>
+  </ul>
+</p>
