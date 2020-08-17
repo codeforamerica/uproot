@@ -12,8 +12,6 @@ Very early development / feasibility assessment
 
 Currently the repo contains exploratory work to understand the feasibility and think through technical approaches.
 
-An instance is available at: https://uproot-dev.herokuapp.com
-
 The basic approach looks like this:
 
 1. Start the whole thing by running code to initiate a call to a # with a button sequence (eg, wait 20 seconds and press 1 for English)
